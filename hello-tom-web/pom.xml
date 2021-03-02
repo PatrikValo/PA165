@@ -30,6 +30,13 @@
                         <version>${tomcat.version}</version>
                     </artifactInstaller>
                 </container>
+                <deployables>
+                    <deployable>
+                        <properties>
+                            <context>/my-different-context</context>
+                        </properties>
+                    </deployable>
+                </deployables>
             </configuration>
         </plugin>
     </plugins>
