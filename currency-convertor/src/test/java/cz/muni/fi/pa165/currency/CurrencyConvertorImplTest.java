@@ -36,8 +36,7 @@ public class CurrencyConvertorImplTest {
         var convertor = new CurrencyConvertorImpl(mock);
 
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> convertor.convert(null, czk, new BigDecimal("200")))
-                .withMessage("One of the argument is null.");
+                .isThrownBy(() -> convertor.convert(null, czk, new BigDecimal("200")));
     }
 
     @Test
@@ -48,8 +47,7 @@ public class CurrencyConvertorImplTest {
         var convertor = new CurrencyConvertorImpl(mock);
 
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> convertor.convert(eur, null, new BigDecimal("200")))
-                .withMessage("One of the argument is null.");
+                .isThrownBy(() -> convertor.convert(eur, null, new BigDecimal("200")));
     }
 
     @Test
@@ -60,8 +58,7 @@ public class CurrencyConvertorImplTest {
         var convertor = new CurrencyConvertorImpl(mock);
 
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> convertor.convert(eur, czk, null))
-                .withMessage("One of the argument is null.");
+                .isThrownBy(() -> convertor.convert(eur, czk, null));
     }
 
     @Test
