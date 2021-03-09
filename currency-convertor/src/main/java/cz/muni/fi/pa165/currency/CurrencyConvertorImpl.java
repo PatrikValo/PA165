@@ -20,7 +20,21 @@ public class CurrencyConvertorImpl implements CurrencyConvertor {
 
     @Override
     public BigDecimal convert(Currency sourceCurrency, Currency targetCurrency, BigDecimal sourceAmount) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (sourceAmount == null) {
+            throw new IllegalArgumentException("The sourceAmount argument is null");
+        }
+
+        try {
+            BigDecimal exchangeRate = exchangeRateTable.getExchangeRate(sourceCurrency, targetCurrency);
+
+            if (exchangeRate == null) {
+                throw new UnknownExchangeRateException("Exchange rate is not known");
+            }
+
+            return sourceAmount.multiply(exchangeRate);
+        } catch (ExternalServiceFailureException e) {
+            throw new UnknownExchangeRateException("Lookup for current exchange rate failed", e);
+        }
     }
 
 }
