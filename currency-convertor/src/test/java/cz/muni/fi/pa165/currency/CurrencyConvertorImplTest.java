@@ -54,7 +54,14 @@ public class CurrencyConvertorImplTest {
 
     @Test
     public void testConvertWithNullSourceAmount() {
-        fail("Test is not implemented yet.");
+        var exchangeRate = new BigDecimal("26.22");
+
+        var mock = createMock(eur, czk, exchangeRate);
+        var convertor = new CurrencyConvertorImpl(mock);
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> convertor.convert(eur, czk, null))
+                .withMessage("One of the argument is null.");
     }
 
     @Test
