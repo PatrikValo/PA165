@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.Currency;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +29,7 @@ public class CurrencyConvertorImplTest {
 
     @Test
     public void testConvertWithNullSourceCurrency() {
-        var exchangeRate = new BigDecimal("27.22");
+        var exchangeRate = new BigDecimal("25.21");
 
         var mock = createMock(null, czk, exchangeRate);
         var convertor = new CurrencyConvertorImpl(mock);
@@ -41,7 +40,7 @@ public class CurrencyConvertorImplTest {
 
     @Test
     public void testConvertWithNullTargetCurrency() {
-        var exchangeRate = new BigDecimal("26.22");
+        var exchangeRate = new BigDecimal("25.21");
 
         var mock = createMock(eur, null, exchangeRate);
         var convertor = new CurrencyConvertorImpl(mock);
@@ -52,7 +51,7 @@ public class CurrencyConvertorImplTest {
 
     @Test
     public void testConvertWithNullSourceAmount() {
-        var exchangeRate = new BigDecimal("26.22");
+        var exchangeRate = new BigDecimal("25.21");
 
         var mock = createMock(eur, czk, exchangeRate);
         var convertor = new CurrencyConvertorImpl(mock);
@@ -63,22 +62,56 @@ public class CurrencyConvertorImplTest {
 
     @Test
     public void testConvertWithUnknownCurrency() {
-        fail("Test is not implemented yet.");
+        var mock = createUnknownMock(eur, czk);
+        var convertor = new CurrencyConvertorImpl(mock);
+
+        assertThatExceptionOfType(UnknownExchangeRateException.class)
+                .isThrownBy(() -> convertor.convert(eur, czk, new BigDecimal("100")))
+                .withMessage("Exchange rate is not known");
     }
 
     @Test
     public void testConvertWithExternalServiceFailure() {
-        fail("Test is not implemented yet.");
+        var mock = createFailureMock(eur, czk);
+        var convertor = new CurrencyConvertorImpl(mock);
+
+        assertThatExceptionOfType(UnknownExchangeRateException.class)
+                .isThrownBy(() -> convertor.convert(eur, czk, new BigDecimal("100")))
+                .withMessage("Lookup for current exchange rate failed");
     }
 
     public ExchangeRateTable createMock(Currency source, Currency target, BigDecimal result) {
         try {
             var exchange = mock(ExchangeRateTable.class);
-            when(exchange.getExchangeRate(source, target)).thenReturn(result);
+
             if (source == null || target == null) {
                 when(exchange.getExchangeRate(source, target))
-                        .thenThrow(new IllegalArgumentException("One of the argument is null."));
+                        .thenThrow(new IllegalArgumentException("One of the argument is null"));
+            } else {
+                when(exchange.getExchangeRate(source, target)).thenReturn(result);
             }
+
+            return exchange;
+        } catch (ExternalServiceFailureException e) {
+            throw new RuntimeException("Mock configuration failed", e);
+        }
+    }
+
+    public ExchangeRateTable createUnknownMock(Currency source, Currency target) {
+        try {
+            var exchange = mock(ExchangeRateTable.class);
+            when(exchange.getExchangeRate(source, target)).thenReturn(null);
+            return exchange;
+        } catch (ExternalServiceFailureException e) {
+            throw new RuntimeException("Mock configuration failed", e);
+        }
+    }
+
+    public ExchangeRateTable createFailureMock(Currency source, Currency target) {
+        try {
+            var exchange = mock(ExchangeRateTable.class);
+            when(exchange.getExchangeRate(source, target))
+                    .thenThrow(new ExternalServiceFailureException("External service problem"));
             return exchange;
         } catch (ExternalServiceFailureException e) {
             throw new RuntimeException("Mock configuration failed", e);
