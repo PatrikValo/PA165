@@ -14,6 +14,6 @@ public class MainXml {
 
         var eur = Currency.getInstance("EUR");
         var czk = Currency.getInstance("CZK");
-        System.out.println(currencyConvertor.convert(eur, czk, BigDecimal.valueOf(1000)));
+        System.out.println(currencyConvertor.convert(eur, czk, BigDecimal.valueOf(1)));
     }
 }
