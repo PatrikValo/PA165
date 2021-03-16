@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165;
 
-import cz.muni.fi.pa165.currency.CurrencyConvertorImpl;
+import cz.muni.fi.pa165.currency.CurrencyConvertor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -10,7 +10,7 @@ import java.util.Currency;
 public class MainJavaConfig {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(JavaConfig.class);
-        CurrencyConvertorImpl currencyConvertor = applicationContext.getBean("currencyConvertor", CurrencyConvertorImpl.class);
+        CurrencyConvertor currencyConvertor = applicationContext.getBean("currencyConvertor", CurrencyConvertor.class);
 
         var eur = Currency.getInstance("EUR");
         var czk = Currency.getInstance("CZK");

@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.0.6.RELEASE</version>
+            <version>5.3.4</version>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
@@ -36,17 +36,17 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>4.0.6.RELEASE</version>
+            <version>5.3.4</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.7.3</version>
+            <version>1.8.13</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.7.3</version>
+            <version>1.8.13</version>
         </dependency>
     </dependencies>
     <properties>
