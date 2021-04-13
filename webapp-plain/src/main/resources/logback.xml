@@ -25,5 +25,5 @@
     <logger name="org" level="info"/>
     <logger name="cz.muni.fi.pa165" level="debug"/>
     <logger name="cz.muni.fi.pa165.web.CharacterEncodingFilter" level="debug"/>
-
+    <logger name="cz.muni.fi.pa165.web.CharacterEncodingFilter" level="trace"/>
 </configuration>
