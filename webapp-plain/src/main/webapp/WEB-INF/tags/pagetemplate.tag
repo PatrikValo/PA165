@@ -32,6 +32,7 @@
 </div>
 <div id="footer">
     &copy; Masaryk University
+    <c:out value="${currentyear}"/>
 </div>
 </body>
 </html>
